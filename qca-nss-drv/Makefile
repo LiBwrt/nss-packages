@@ -134,8 +134,8 @@ endef
 
 EXTRA_CFLAGS+= -I$(STAGING_DIR)/usr/include/qca-nss-dp \
 			   -I$(STAGING_DIR)/usr/include/qca-ssdk \
-			   -Wno-unused-variable -Wno-enum-conversion \
-			   -Wno-missing-declarations -Wno-missing-prototypes
+			   -Wno-missing-declarations -Wno-missing-prototypes \
+			   -Wno-empty-body -Wno-unused-variable
 
 ifdef CONFIG_NSS_MEM_PROFILE_MEDIUM
   EXTRA_CFLAGS += -DNSS_MEM_PROFILE_MEDIUM

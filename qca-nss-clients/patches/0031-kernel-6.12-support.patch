@@ -158,15 +158,29 @@
  	if (IS_ERR(rt)) {
  		nss_connmgr_gre_warning("route look up failed for %pI4\n", &raddr);
  		return GRE_ERR_RADDR_ROUTE_LOOKUP;
-@@ -218,7 +226,7 @@ int nss_connmgr_gre_v4_set_config(struct
+@@ -208,9 +216,9 @@ int nss_connmgr_gre_v4_set_config(struct
+ 		t->parms.o_key = cfg->okey;
+ 	}
  
- 	nss_connmgr_gre_set_gre_flags(cfg, &t->parms.o_flags, &t->parms.i_flags);
+-	nss_connmgr_gre_set_gre_flags(cfg, &t->parms.o_flags, &t->parms.i_flags);
++	nss_connmgr_gre_set_gre_flags(cfg, (uint16_t *)&t->parms.o_flags, (uint16_t *)&t->parms.i_flags);
  
 -	strlcpy(t->parms.name, dev->name, IFNAMSIZ);
 +	strscpy(t->parms.name, dev->name, IFNAMSIZ);
  	t->dev = dev;
  	return GRE_SUCCESS;
  }
+@@ -322,8 +330,8 @@ int nss_connmgr_gre_v4_get_config(struct
+ 	memcpy(cmsg->src_ip, &src_ip, 4);
+ 	memcpy(cmsg->dest_ip, &dest_ip, 4);
+ 
+-	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(t->parms.o_flags,
+-								     t->parms.i_flags,
++	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(*t->parms.o_flags,
++								     *t->parms.i_flags,
+ 								     iphdr->tos, iphdr->ttl,
+ 								     iphdr->frag_off);
+ 
 --- a/ipsecmgr/v1.0/nss_ipsecmgr.c
 +++ b/ipsecmgr/v1.0/nss_ipsecmgr.c
 @@ -526,7 +526,11 @@ static struct net_device *nss_ipsecmgr_t
@@ -771,15 +785,29 @@
  	}
 --- a/gre/nss_connmgr_gre_v6.c
 +++ b/gre/nss_connmgr_gre_v6.c
-@@ -324,7 +324,7 @@ int nss_connmgr_gre_v6_set_config(struct
+@@ -322,9 +322,9 @@ int nss_connmgr_gre_v6_set_config(struct
+ 		t->parms.o_key = cfg->okey;
+ 	}
  
- 	nss_connmgr_gre_set_gre_flags(cfg, &t->parms.o_flags, &t->parms.i_flags);
+-	nss_connmgr_gre_set_gre_flags(cfg, &t->parms.o_flags, &t->parms.i_flags);
++	nss_connmgr_gre_set_gre_flags(cfg, (uint16_t *)&t->parms.o_flags, (uint16_t *)&t->parms.i_flags);
  
 -	strlcpy(t->parms.name, dev->name, IFNAMSIZ);
 +	strscpy(t->parms.name, dev->name, IFNAMSIZ);
  	t->dev = dev;
  	return GRE_SUCCESS;
  }
+@@ -359,8 +359,8 @@ int nss_connmgr_gre_v6_get_config(struct
+ 	/*
+ 	 * IPv6 outer tos field is always inherited from inner IP header.
+ 	 */
+-	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(t->parms.o_flags,
+-								     t->parms.i_flags,
++	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(*t->parms.o_flags,
++								     *t->parms.i_flags,
+ 								     t->parms.flowinfo,
+ 								     t->parms.hop_limit, 0);
+ 
 --- /dev/null
 +++ b/compat.h
 @@ -0,0 +1,15 @@
