@@ -819,7 +819,7 @@ define Build/Compile
 	  CROSS_COMPILE="$(TARGET_CROSS)" \
 	  ARCH="$(LINUX_KARCH)" \
 	  M="$(PKG_BUILD_DIR)" \
-	  EXTRA_CFLAGS="$(EXTRA_CFLAGS) -Wno-missing-declarations -Wno-missing-prototypes -Wno-enum-conversion -Wno-empty-body -Wno-unused-variable -Wno-int-conversion" \
+	  EXTRA_CFLAGS="$(EXTRA_CFLAGS) -include $(PKG_BUILD_DIR)/compat.h" \
 	  DTLSMGR_DIR="$(DTLSMGR_DIR)" \
 	  IPSECMGR_DIR="$(IPSECMGR_DIR)" \
 	  SoC=$(SOC) \

@@ -134,7 +134,8 @@ endef
 
 EXTRA_CFLAGS+= -I$(STAGING_DIR)/usr/include/qca-nss-dp \
 			   -I$(STAGING_DIR)/usr/include/qca-ssdk \
-			   -Wno-unused-variable -Wno-enum-conversion
+			   -Wno-unused-variable -Wno-enum-conversion \
+			   -Wno-missing-declarations -Wno-missing-prototypes
 
 ifdef CONFIG_NSS_MEM_PROFILE_MEDIUM
   EXTRA_CFLAGS += -DNSS_MEM_PROFILE_MEDIUM
@@ -147,6 +148,8 @@ ifdef CONFIG_NSS_FIRMWARE_VERSION_12_5
 endif
 
 DRV_MAKE_OPTS:=
+
+DRV_MAKE_OPTS += NSS_DEBUG_LEVEL=2
 
 ifndef CONFIG_NSS_DRV_BRIDGE_ENABLE
    DRV_MAKE_OPTS += NSS_DRV_BRIDGE_ENABLE=n

@@ -188,7 +188,7 @@ define Build/Compile
 		CROSS_COMPILE="$(TARGET_CROSS)" \
 		ARCH="$(LINUX_KARCH)" \
 		M="$(PKG_BUILD_DIR)" \
-		EXTRA_CFLAGS="$(EXTRA_CFLAGS) -Wno-missing-declarations -Wno-missing-prototypes -Wno-error=unused-function " \
+		EXTRA_CFLAGS="$(EXTRA_CFLAGS)" \
 		SoC=$(SOC) \
 		$(KERNEL_MAKE_FLAGS) \
 		$(PKG_JOBS) \

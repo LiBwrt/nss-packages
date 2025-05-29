@@ -100,38 +100,3 @@
 +	return (nss_tx_status_t)lag_msg_state.response;
  }
  EXPORT_SYMBOL(nss_lag_tx_slave_state);
---- a/nss_n2h.c
-+++ b/nss_n2h.c
-@@ -998,7 +998,7 @@ static int nss_n2h_wifi_payloads_handler
-  * nss_n2h_get_qos_mem_size_cfg_handler()
-  *	Gets the QoS memory pool size
-  */
--static int nss_n2h_get_qos_mem_size_cfg_handler(struct ctl_table *ctl,
-+static int nss_n2h_get_qos_mem_size_cfg_handler(const struct ctl_table *ctl,
- 			int write, void __user *buffer,
- 			size_t *lenp, loff_t *ppos)
- {
---- a/nss_ppe_vp.c
-+++ b/nss_ppe_vp.c
-@@ -779,8 +779,7 @@ static struct ctl_table nss_ppe_vp_table
- 		.maxlen         = sizeof(nss_ppe_vp_cmd),
- 		.mode           = 0644,
- 		.proc_handler   = &nss_ppe_vp_destroy_handler,
--	},
--	{ }
-+	}
- };
- 
- static struct ctl_table_header *nss_ppe_vp_procfs_header;
---- a/nss_pppoe.c
-+++ b/nss_pppoe.c
-@@ -349,8 +349,7 @@ static struct ctl_table nss_pppoe_table[
- 		.maxlen                 = sizeof(int),
- 		.mode                   = 0644,
- 		.proc_handler           = &nss_pppoe_br_accel_mode_handler,
--	},
--	{ }
-+	}
- };
- 
- static struct ctl_table_header *nss_pppoe_header;

@@ -41,7 +41,7 @@ EXTRA_CFLAGS+= \
 MAKE_OPTS:= \
 	ARCH="$(LINUX_KARCH)" \
 	CROSS_COMPILE="$(TARGET_CROSS)" \
-	EXTRA_CFLAGS="$(EXTRA_CFLAGS) -Wno-missing-declarations -Wno-missing-prototypes" \
+	EXTRA_CFLAGS="$(EXTRA_CFLAGS)" \
 	CXXFLAGS="$(TARGET_CXXFLAGS)" \
 	M="$(PKG_BUILD_DIR)" \
 	$(EXTRA_KCONFIG)

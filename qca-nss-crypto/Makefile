@@ -16,14 +16,6 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/kernel.mk
 include $(INCLUDE_DIR)/package.mk
 
-# v1.0 is for Akronite
-# v2.0 is for Hawkeye/Cypress/Maple
-ifneq (, $(findstring $(CONFIG_TARGET_SUBTARGET), "ipq807x" "ipq60xx" "ipq50xx"))
-NSS_CRYPTO_DIR:=v2.0
-else
-NSS_CRYPTO_DIR:=v1.0
-endif
-
 define KernelPackage/qca-nss-crypto
 	SECTION:=kernel
 	CATEGORY:=Kernel modules
@@ -59,8 +51,7 @@ EXTRA_CFLAGS+= \
 	-I$(STAGING_DIR)/usr/include/qca-nss-crypto \
 	-I$(STAGING_DIR)/usr/include/qca-nss-drv \
 	-I$(PKG_BUILD_DIR)/$(NSS_CRYPTO_DIR)/include \
-	-I$(PKG_BUILD_DIR)/$(NSS_CRYPTO_DIR)/src \
-	-Wno-missing-declarations -Wno-missing-prototypes
+	-I$(PKG_BUILD_DIR)/$(NSS_CRYPTO_DIR)/src
 
 ifeq ($(CONFIG_TARGET_BOARD), "qualcommax")
 	SOC:=$(CONFIG_TARGET_SUBTARGET)

@@ -514,6 +514,20 @@
  	if (unlikely(IS_ERR(rt))) {
  		nss_ovpnmgr_warn("%px: Failed to find IPv4 route.\n", skb);
  		tun->outer.stats.host_pkt_drop++;
+--- a/openvpn/src/nss_ovpnmgr_app.c
++++ b/openvpn/src/nss_ovpnmgr_app.c
+@@ -51,7 +51,11 @@ static struct net_device *nss_ovpnmgr_ap
+ 	struct rtable *rt4;
+ 
+ 	if (rt->ip_version == IPVERSION) {
++#if LINUX_VERSION_CODE <= KERNEL_VERSION(6, 10, 0)
+ 		rt4 = ip_route_output(&init_net, rt->ip_addr[0], 0, 0, 0);
++#else
++		rt4 = ip_route_output(&init_net, rt->ip_addr[0], 0, 0, 0, 0);
++#endif
+ 		if (IS_ERR(rt4)) {
+ 			return NULL;
+ 		}
 --- a/tunipip6/nss_connmgr_tunipip6.c
 +++ b/tunipip6/nss_connmgr_tunipip6.c
 @@ -174,7 +174,11 @@ static void nss_tunipip6_encap_exception
@@ -820,33 +834,3 @@
  
  	/*
  	 * Send to userspace
---- a/openvpn/src/nss_ovpnmgr_app.c
-+++ b/openvpn/src/nss_ovpnmgr_app.c
-@@ -51,7 +51,11 @@ static struct net_device *nss_ovpnmgr_ap
- 	struct rtable *rt4;
- 
- 	if (rt->ip_version == IPVERSION) {
-+#if LINUX_VERSION_CODE <= KERNEL_VERSION(6, 10, 0)
- 		rt4 = ip_route_output(&init_net, rt->ip_addr[0], 0, 0, 0);
-+#else
-+		rt4 = ip_route_output(&init_net, rt->ip_addr[0], 0, 0, 0, 0);
-+#endif
- 		if (IS_ERR(rt4)) {
- 			return NULL;
- 		}
---- a/bridge/Makefile
-+++ b/bridge/Makefile
-@@ -1,4 +1,4 @@
--ccflags-y := -I$(obj)/../exports -I$(obj)/..  -I$(obj)/nss_hal/include
-+ccflags-y := -I$(obj)/../exports -I$(obj)/..  -I$(obj)/nss_hal/include -include $(obj)/../compat.h
- ccflags-y += -DNSS_CLIENT_BUILD_ID="$(BUILD_ID)"
- ccflags-$(NSS_BRIDGE_MGR_OVS_ENABLE) += -DNSS_BRIDGE_MGR_OVS_ENABLE
- 
---- a/vlan/Makefile
-+++ b/vlan/Makefile
-@@ -1,4 +1,4 @@
--ccflags-y := -I$(obj)/../exports -I$(obj)/..  -I$(obj)/nss_hal/include
-+ccflags-y := -I$(obj)/../exports -I$(obj)/..  -I$(obj)/nss_hal/include -include $(obj)/../compat.h
- ccflags-y += -DNSS_CLIENT_BUILD_ID="$(BUILD_ID)"
- 
- obj-m += qca-nss-vlan.o

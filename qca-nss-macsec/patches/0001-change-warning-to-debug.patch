@@ -17,14 +17,3 @@
  		return -ENODEV;
  	}
  	printk(KERN_INFO "%s DT exist!\n", dev_name);
---- a/Makefile
-+++ b/Makefile
-@@ -41,7 +41,7 @@ endif
- NSS_MACSEC_INCLUDE = -I$(obj)/include -I$(obj)/dal -I$(obj)/fal -I$(obj)/dal/qca808x
- 
- ccflags-y += $(NSS_MACSEC_INCLUDE)
--ccflags-y += -Wall -Werror
-+ccflags-y += -Wall -Werror -Wno-missing-declarations -Wno-missing-prototypes
- 
- ifeq ($(SoC), ipq806x)
- ccflags-y += -DMACSEC_IPQ806X_SUPPORT
