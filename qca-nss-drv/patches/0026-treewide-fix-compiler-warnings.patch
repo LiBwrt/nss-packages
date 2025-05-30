@@ -1,5 +1,14 @@
 --- a/nss_core.c
 +++ b/nss_core.c
+@@ -438,7 +438,7 @@ void nss_core_handle_nss_status_pkt(stru
+ 	app_data = nss_ctx->nss_rx_interface_handlers[nss_if].app_data;
+ 
+ 	if (!cb) {
+-		nss_warning("%px: Callback not registered for interface %d", nss_ctx, nss_if);
++		// nss_warning("%px: Callback not registered for interface %d", nss_ctx, nss_if);
+ 		return;
+ 	}
+ 
 @@ -2278,12 +2278,16 @@ static void nss_core_handle_cause_nonque
  	 * of processor will prevent any excessive penalties.
  	 */
