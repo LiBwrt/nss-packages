@@ -40,17 +40,6 @@
  static int max_ipv4_conn = NSS_DEFAULT_NUM_CONN;
 --- a/Makefile
 +++ b/Makefile
-@@ -543,7 +543,9 @@ endif
- ccflags-y += -I$(obj)/nss_hal/ipq50xx -DNSS_HAL_IPQ50XX_SUPPORT -DNSS_MULTI_H2N_DATA_RING_SUPPORT
- endif
- 
--ccflags-y += -I$(obj)/nss_hal/include -I$(obj)/nss_data_plane/include -I$(obj)/exports -DNSS_DEBUG_LEVEL=0 -DNSS_PKT_STATS_ENABLED=1
-+NSS_DEBUG_LEVEL ?= 2
-+
-+ccflags-y += -I$(obj)/nss_hal/include -I$(obj)/nss_data_plane/include -I$(obj)/exports -DNSS_DEBUG_LEVEL=$(NSS_DEBUG_LEVEL) -DNSS_PKT_STATS_ENABLED=1
- 
- ccflags-y += -I$(obj)/nss_data_plane/hal/include
- ccflags-y += -DNSS_PM_DEBUG_LEVEL=0 -DNSS_SKB_REUSE_SUPPORT=1
 @@ -579,6 +581,8 @@ qca-nss-drv-objs += \
  ccflags-y += -DNSS_FREQ_SCALE_SUPPORT=1
  endif

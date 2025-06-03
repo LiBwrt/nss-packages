@@ -170,14 +170,17 @@
  	t->dev = dev;
  	return GRE_SUCCESS;
  }
-@@ -322,8 +330,8 @@ int nss_connmgr_gre_v4_get_config(struct
+@@ -322,8 +330,13 @@ int nss_connmgr_gre_v4_get_config(struct
  	memcpy(cmsg->src_ip, &src_ip, 4);
  	memcpy(cmsg->dest_ip, &dest_ip, 4);
  
--	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(t->parms.o_flags,
--								     t->parms.i_flags,
++#if LINUX_VERSION_CODE <= KERNEL_VERSION(6, 10, 0)
+ 	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(t->parms.o_flags,
+ 								     t->parms.i_flags,
++#else
 +	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(*t->parms.o_flags,
 +								     *t->parms.i_flags,
++#endif
  								     iphdr->tos, iphdr->ttl,
  								     iphdr->frag_off);
  
@@ -797,14 +800,17 @@
  	t->dev = dev;
  	return GRE_SUCCESS;
  }
-@@ -359,8 +359,8 @@ int nss_connmgr_gre_v6_get_config(struct
+@@ -359,8 +359,13 @@ int nss_connmgr_gre_v6_get_config(struct
  	/*
  	 * IPv6 outer tos field is always inherited from inner IP header.
  	 */
--	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(t->parms.o_flags,
--								     t->parms.i_flags,
++#if LINUX_VERSION_CODE <= KERNEL_VERSION(6, 10, 0)
+ 	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(t->parms.o_flags,
+ 								     t->parms.i_flags,
++#else
 +	cmsg->flags |= nss_connmgr_gre_get_nss_config_flags(*t->parms.o_flags,
 +								     *t->parms.i_flags,
++#endif
  								     t->parms.flowinfo,
  								     t->parms.hop_limit, 0);
  

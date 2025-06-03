@@ -468,7 +468,7 @@ define KernelPackage/qca-nss-drv-ovpn-mgr
 	   +kmod-qca-nss-drv \
 	   +@NSS_DRV_QVPN_ENABLE \
 	   +kmod-qca-nss-cfi-cryptoapi \
-	   +kmod-ipt-conntrack \
+	   +kmod-nf-conntrack \
 	   +kmod-tun \
 	   @BROKEN
   FILES:=$(PKG_BUILD_DIR)/openvpn/src/qca-nss-ovpn-mgr.ko
