@@ -1,0 +1,74 @@
+---
+name: NSS Build Support Request
+description: Use this template to report issues or request support for building NSS
+  packages.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### What is the issue?
+        Please provide a clear and concise description of the issue or the problem you are encountering.
+
+  - type: textarea
+    id: issue_description
+    attributes:
+      label: Issue Description
+      description: Briefly describe the issue or the problem you are trying to solve.
+      placeholder: e.g., Error encountered during build, missing package, etc.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: openwrt_fork
+    attributes:
+      label: 1. Which OpenWrt NSS fork are you using?
+      description: Select the OpenWrt NSS fork you are building from.
+      options:
+        - qosmio/openwrt-ipq
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: branch
+    attributes:
+      label: 2. If you selected 'qosmio/openwrt-ipq', what branch are you building
+        from?
+      description: If you selected 'other', you can skip this.
+      options:
+        - main-nss
+        - 24.10-nss
+
+  - type: input
+    id: custom_repo
+    attributes:
+      label: 3. If you selected 'other', what is the full repository?
+      description: Enter the full repository in the format `user/repo`. If you selected
+        'qosmio/openwrt-ipq', you can skip this.
+      placeholder: user/repo
+
+  - type: input
+    id: device_name
+    attributes:
+      label: 4. What is the exact device you are building for?
+      description: Provide the specific device name according to CONFIG_TARGET_PROFILE.
+      placeholder: e.g., DEVICE_linksys_mr7500
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |-
+        ### 5. Attach your `.config` output:
+        Run the following command and attach the output below
+        ```bash
+        grep -Pi 'NSS_(?!DRV)|^(?!#)CONFIG_TARGET_(SUBTARGET|PROFILE|qualcommax)|^(?!#)CONFIG_(PACKAGE_kmod-qca-)|MEM_PROFILE' .config
+        ```
+
+  - type: textarea
+    id: config_output
+    attributes:
+      label: .config
+      render: ini
+    validations:
+      required: true
